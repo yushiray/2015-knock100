@@ -8,6 +8,8 @@ mod ch1_tests {
     use knock100_2015::ch1::knock03::pi_from_text;
     use knock100_2015::ch1::knock05::character_n_gram;
     use knock100_2015::ch1::knock05::word_n_gram;
+    use knock100_2015::ch1::knock06::set;
+    use std::collections::HashSet;
     #[test]
     fn knock00() {
         assert_eq!(reverse("stressed"), "desserts".to_string());
@@ -28,5 +30,9 @@ mod ch1_tests {
     fn knock05() {
         assert_eq!(character_n_gram("I am an NLPer", 2),vec!["I ", " a", "am", "m ", " a", "an", "n ", " N", "NL", "LP", "Pe", "er"]);
         assert_eq!(word_n_gram("I am an NLPer", 2),vec![["I", "am"], ["am", "an"], ["an", "NLPer"]]);
+    }
+    #[test]
+    fn knock06() {
+        assert_eq!(set(), vec!["ap", "ra", "pa", "ad", "is", "ar", "se", "ph", "gr", "di", "ag"].into_iter().map(|x| x.to_string()).collect::<HashSet<String>>());
     }
 }
