@@ -9,6 +9,7 @@ mod ch1_tests {
     use knock100_2015::ch1::knock05::character_n_gram;
     use knock100_2015::ch1::knock05::word_n_gram;
     use knock100_2015::ch1::knock06::set;
+    use knock100_2015::ch1::knock07::format;
     use std::collections::HashSet;
     #[test]
     fn knock00() {
@@ -34,5 +35,10 @@ mod ch1_tests {
     #[test]
     fn knock06() {
         assert_eq!(set(), vec!["ap", "ra", "pa", "ad", "is", "ar", "se", "ph", "gr", "di", "ag"].into_iter().map(|x| x.to_string()).collect::<HashSet<String>>());
+    }
+
+    #[test]
+    fn knock07() {
+        assert_eq!(format("12", "気温", "22.4"), "12時の気温は22.4");
     }
 }
