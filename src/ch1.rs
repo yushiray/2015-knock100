@@ -5,3 +5,4 @@ pub mod knock03;
 pub mod knock05;
 pub mod knock06;
 pub mod knock07;
+pub mod knock08;
