@@ -45,3 +45,18 @@ pub fn cut(input_file_name: &Path, num: usize, output_file_name: &str) {
         Err(_) => panic!("parse error "),
     });
 }
+
+
+pub fn paste(input_file1: &Path, input_file2: &Path, output_file_name: &str) {
+    let input_f1 = File::open(input_file1).expect("file not found");
+    let input_f2 = File::open(input_file2).expect("file not found");
+    let read_buf1 = BufReader::new(input_f1);
+    let read_buf2 = BufReader::new(input_f2);
+    let mut output_f = OpenOptions::new()
+        .write(true)
+        .create(true)
+        .open(output_file_name)
+        .expect(format!("can't open file[{}] with write option", output_file_name).as_str());
+    writeln!(output_f, "{}", read_buf1.lines().zip(read_buf2.lines()).map(|(col1, col2)| col1.unwrap() + "\t" + &col2.unwrap() + "\n").collect::<String>()).unwrap();
+    output_f.flush().expect("Error during flush");
+}
