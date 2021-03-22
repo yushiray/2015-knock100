@@ -60,3 +60,17 @@ pub fn paste(input_file1: &Path, input_file2: &Path, output_file_name: &str) {
     writeln!(output_f, "{}", read_buf1.lines().zip(read_buf2.lines()).map(|(col1, col2)| col1.unwrap() + "\t" + &col2.unwrap() + "\n").collect::<String>()).unwrap();
     output_f.flush().expect("Error during flush");
 }
+
+pub fn head(path: &Path, n: usize) -> io::Result<String> {
+    let file = File::open(path)?;
+    let read_buf = BufReader::new(file);
+    read_buf.lines().take(n).map(|line| line.and_then(|line| Ok(line + "\n"))).collect()
+}
+
+pub fn tail(path: &Path, n: usize) -> io::Result<String> {
+    let file = File::open(path)?;
+    let read_buf = BufReader::new(file);
+    let lines = read_buf.lines().collect::<Vec<_>>();
+    let n_lines = lines.into_iter().rev().take(n).collect::<Vec<_>>();
+    n_lines.into_iter().rev().map(|line| line.and_then(|line| Ok(line + "\n"))).collect()
+}
