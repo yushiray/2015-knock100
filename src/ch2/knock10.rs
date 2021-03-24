@@ -74,3 +74,10 @@ pub fn tail(path: &Path, n: usize) -> io::Result<String> {
     let n_lines = lines.into_iter().rev().take(n).collect::<Vec<_>>();
     n_lines.into_iter().rev().map(|line| line.and_then(|line| Ok(line + "\n"))).collect()
 }
+
+pub fn split(path: &Path, n: usize) -> io::Result<Vec<String>> {
+    let file = File::open(path)?;
+    let read_buf = BufReader::new(file);
+    let lines = read_buf.lines().collect::<io::Result<Vec<_>>>();
+    lines.and_then(|lines| Ok(lines.chunks(n).map(|chunk| chunk.join("\n")).collect()))
+}
