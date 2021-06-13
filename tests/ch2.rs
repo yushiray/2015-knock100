@@ -5,6 +5,8 @@ mod ch2_tests {
     use knock100_2015::ch2::knock10::head;
     use knock100_2015::ch2::knock10::tail;
     use knock100_2015::ch2::knock10::split;
+    use knock100_2015::ch2::knock10::uniq;
+    use std::collections::HashSet;
     use std::path::Path;
 
     #[test]
@@ -34,5 +36,11 @@ mod ch2_tests {
                                                                     "千葉県\t茂原\t39.9\t2013-08-11\n埼玉県\t鳩山\t39.9\t1997-07-05".to_string(), 
                                                                     "大阪府\t豊中\t39.9\t1994-08-08\n山梨県\t大月\t39.9\t1990-07-19".to_string(), 
                                                                     "山形県\t鶴岡\t39.9\t1978-08-03\n愛知県\t名古屋\t39.9\t1942-08-02".to_string()]);
+    }
+    #[test]
+    fn knock17() {
+        let mut columns = HashSet::new();
+        columns.insert("群馬県".to_string());
+        assert_eq!(uniq(Path::new("hightenp2.txt"), 0), columns);
     }
 }

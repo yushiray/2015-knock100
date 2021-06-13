@@ -3,8 +3,10 @@ use std::fs::OpenOptions;
 use std::path::Path;
 use std::io::{BufRead, BufReader};
 use std::io::prelude::*;
-
+use std::collections::HashSet;
+use std::io::ErrorKind;
 use std::io;
+use std::io::Error;
 
 pub fn count_lines(path: &Path) -> usize {
     let file = File::open(path).expect("file not found");
@@ -80,4 +82,20 @@ pub fn split(path: &Path, n: usize) -> io::Result<Vec<String>> {
     let read_buf = BufReader::new(file);
     let lines = read_buf.lines().collect::<io::Result<Vec<_>>>();
     lines.and_then(|lines| Ok(lines.chunks(n).map(|chunk| chunk.join("\n")).collect()))
+}
+
+
+pub fn uniq(path: &Path, n: usize) -> HashSet<String> {
+    let file = File::open(path).unwrap();
+    let br = BufReader::new(file);
+    let mut result = HashSet::new();
+    br.lines().map(|line|
+        line.and_then(|line|
+            line.split_whitespace().map(|word| word.to_string()).nth(n)
+            .ok_or(Error::new(ErrorKind::NotFound, format!("column not found.")))))
+    .for_each(|line| match line {
+        Ok(line) => { result.insert(line.to_string()); },
+        Err(e) => eprintln!("{}", e)
+    });
+    result
 }
